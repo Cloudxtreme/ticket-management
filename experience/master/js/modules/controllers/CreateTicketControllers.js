@@ -5,19 +5,85 @@
 
 App.controller('CreateTicketController', ['$rootScope', '$scope', '$state', '$http','ngDialog','$location',
   function ($rootScope, $scope, $state, $http,ngDialog,$location) {
-      $scope.title = 'CreateTicket';
-      $scope.createTicket={
-		          "Summary" :"",
-				  "Name":"",
-				  "RequestType": "",
-				  "Description":"",
+      
+	  var createURL= BASE_URL +"/users/{userId}/tickets";
+	  var classifyURL= BASE_URL+"/users/{userId}/tickets/classify";
+	  $scope.title = 'CreateTicket';
+	  $scope.requestDetails={
+		    "Summary" :"",
+			  "Description":"",
+	  };
+	    $scope.Urgency=["1-Critical","2-High","3-Medium","4-Low"];
+	   $scope.Tier1=["Project Activity ","Failure/Issue","Install/Configure","New/additional requirement/Provisioning"];
+	 /*  $scope.Tier2=["software and applications ","Hardware and accessories","software and applications","Other IT Services"];
+	  $scope.Tier3=["Multiple software installation Project Activity ","2","3","4"]; */
+      $scope.ticketDetails={
+				  "RequestType": "IT ",
+				  "ProjectName":"new ",
 				  "Tier1":"",
 				  "Tier2":"",
 				  "Tier3":"",
-				  "Urgency":""
+				  "Urgency1":"2-High",
+				  "Attachment":""
 	
-		   
 	  };
+	  
+	  
+	  if($scope.Tier1=="Project Activity")
+	  {
+		   $scope.Tier2=["software and applications","network","Email Services"];
+		   if($scope.Tier2=="software and applications")
+		   {
+			    $scope.Tier3=["Multiple software installation"];
+		   }
+		   if($scope.Tier2=="network")
+		   {
+			   $scope.Tier3=["site to site vpn","Project specific internet setup "];
+		   }
+           if($scope.Tier2=="Email Services")
+		   {
+			   $scope.Tier3=["N/A"];
+		   }
+		   
+	  }
+	  if($scope.Tier1=="Install/Configure")
+	  {
+		   $scope.Tier2=["Hardware and accessories"];
+		   $scope.Tier3=["Laptop hardware","Desktop hardware","Accessories"];
+	  }
+	   if($scope.Tier1=="Project Activity")
+	  {
+		   $scope.Tier2=["Hardware and accessories","SCM(CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)","Network","software and applications","Email Services"];
+		   if($scope.Tier2=="Hardware and accessories")
+		   {
+			    $scope.Tier3=["Disk resizing/ partitioning","Drivers"];
+		   }
+		   if($scope.Tier2=="SCM(CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)")
+		   {
+			   $scope.Tier3=["Other Rational Product"];
+		   }
+           if($scope.Tier2=="Network")
+		   {
+			   $scope.Tier3=["Project specific access"];
+		   } 
+		   if($scope.Tier2=="software and applications")
+		   {
+			   $scope.Tier3=["Client Operating system - Microsoft based","Software download"];
+		   } 
+		   if($scope.Tier2=="Email Services")
+		   {
+			   $scope.Tier3=["Outlook client"];
+		   } 
+		   
+	  }
+	   if($scope.Tier1=="New/additional requirement/Provisioning")
+	  {
+		   $scope.Tier2=["Other IT Services"];
+		   $scope.Tier3=["New WebEx account"];
+	  }
+	  
+	  
+	 
       // Fetch Data using APIs
 	  $scope.div1=true;
 	  $scope.div2=false;
@@ -25,17 +91,63 @@ App.controller('CreateTicketController', ['$rootScope', '$scope', '$state', '$ht
 	  
 	    $scope.div1=false;
 	    $scope.div2=true;
-		console.log($scope.createTicket.Summary);
+		console.log($scope.requestDetails.Summary);
+		       var headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              //  "Authorization": "Bearer " + localStorage.getItem("token")
+                };
+              
+			 
+                var request = {
+                method: 'POST',
+                url: classifyURL,
+                data: requestDetails,
+                headers: headers
+                };
+				
+				$http(request)
+                    .success(function(data, status, headers, config) {
+						
+						console.log(data);
+						$scope.ticketDetails.RequestType=data.ticketDetails.serviceCategory;
+						$scope.ticketDetails.ProjectName=data.ticketDetails.projectName;
+						$scope.ticketDetails.Tier1 =data.ticketDetails.tierOneCategory;
+						$scope.ticketDetails.Tier2 =data.ticketDetails.tierTwoCategory;
+						$scope.ticketDetails.Tier3=data.ticketDetails.tierThreeCategory;
+						$scope.ticketDetails.Urgency=data.ticketDetails.urgency;
+						 })
+             .error(function(data, status, headers, config) {
+                 console.log('error');
+             });  
 		
-		
-	  }
-	  $scope.createTicket.urgency=["1-Critical","2-High","3-Medium","4-Low"];
-	   $scope.createTicket.Tier1=["1","2","3","4"];
-	  $scope.createTicket.Tier2=["1","2","3","4"];
-	  $scope.createTicket.Tier3=["1","2","3","4"];
+	  };
+	 
 	  
 	  $scope.submit=function(){
-	  		var dialog=ngDialog.open({
+		   var headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              //  "Authorization": "Bearer " + localStorage.getItem("token")
+                };
+              
+			 var query= {
+				           "requestDetails" : $scope.requestDetails,
+						   "ticketDetails" :$scope.ticketDetails
+			 }
+										
+                var request = {
+                method: 'POST',
+                url: createURL,
+                data: query,
+                headers: headers
+                };
+				
+				$http(request)
+                    .success(function(data, status, headers, config) {
+						 
+		    
+	  		        var dialog=ngDialog.open({
 					template: 'PopUp',
 					controller: ['$scope','$rootScope', '$timeout','ngDialog', function ($scope, $rootScope,$timeout,ngDialog) {
 
@@ -51,6 +163,12 @@ App.controller('CreateTicketController', ['$rootScope', '$scope', '$state', '$ht
              //  window.location.replace("http://stackoverflow.com");
 			    $location.path('/app/Dashboard').replace();
                 });
+				
+				
+			/* 	 })
+             .error(function(data, status, headers, config) {
+                 console.log('error');
+             });  */
 	  }
 	  
   }

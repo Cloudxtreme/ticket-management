@@ -14,10 +14,7 @@ App.controller('loginController', ['$rootScope', '$scope',
 			  var loginPayload =  { 'username': $scope.account.email,
 								    'password': $scope.account.password
 								  };
-			  var headers = {
-                              'Content-Type': 'application/json',
-                              'Accept': 'application/json, text/plain, */*'
-                            }
+		
               restTemplate.execute('','http://localhost:8080/api/v1/auth',loginPayload, headers)
                 .then(function(data) {
                   // set the sessionStorage

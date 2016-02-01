@@ -12,7 +12,7 @@ if (typeof $ === 'undefined') { throw new Error('This application\'s JavaScript 
 
 // APP START
 // ----------------------------------- 
-
+var BASE_URL="http://localhost:8080/ticket-management/api/v1/";
 var App = angular.module('angle', [
     'ngRoute',
     'ngAnimate',

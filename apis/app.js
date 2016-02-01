@@ -26,5 +26,5 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   var port = process.env.PORT || 8080;
   app.listen(port);
 
-  console.log(`server started at http://localhost:${port}/ticket-management/api/v1/swagger`);
+  console.log('server started at http://localhost:${port}/ticket-management/api/v1/swagger');
 });
