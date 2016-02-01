@@ -123,10 +123,15 @@ definitions:
         $ref : "#/definitions/RequestDetails"
       status:
         type: string
+      remarks:
+        type: string
       requesterId:
         type: string
       supportUserId:
         type: string
+      completed:
+        type: string
+        format: date
       ticketDetails:
         type: object
         $ref : "#/definitions/TicketDetails"
