@@ -1,0 +1,31 @@
+<div class"loginPage" >
+   <!-- START panel-->
+   <div class="text-center">
+      <div class="text-center text-lg mb-lg">401</div>
+      <p class="text-center lead m0">401 Unauthorized.</p>
+      <p class="text-center">You are either not authenticated at all or authenticated incorrectly. Please re-authenticate and try again.</p>
+   </div>
+   <div class="input-group mb-xl">
+      <input type="text" placeholder="Try with a search" class="form-control" />
+      <span class="input-group-btn">
+         <button type="button" class="btn btn-default">
+            <em class="fa fa-search"></em>
+         </button>
+      </span>
+   </div>
+   <ul class="list-inline text-center text-sm mb-xl">
+      <li><a href="" ui-sref="app.Dashboard" class="text-muted">Go to App</a>
+      </li>
+      <li class="text-muted">|</li>
+      <li><a href="" ui-sref="app.login" class="text-muted">Login</a>
+      </li>
+   </ul>
+   <div class="p-lg text-center">
+      <span>&copy;</span>
+      <span ng-bind="app.year"></span>
+      <span>-</span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      <span ng-bind="app.description"></span>
+   </div>
+</div>

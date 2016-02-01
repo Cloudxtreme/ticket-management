@@ -1,0 +1,39 @@
+<div data-ui-view="" data-autoscroll="false" class="wrapper ng-scope"><!-- uiView:  -->
+<div ng-controller="loginController as login" class="block-center loginPage ">
+   <!-- START panel-->
+   <div>
+      <div class="panel-heading text-center">
+         <a href="#">
+            <img src="app/img/Persistent_logo.png" alt="Image" class="block-center img-rounded" />
+         </a>
+      </div>
+      <div>
+         <p class="text-center pv">SIGN IN TO CONTINUE.</p>
+         <form role="form" ng-submit="login.submit()" name="login.loginForm" novalidate="" class="form-validate mb-lg">
+            <div class="form-group has-feedback">
+               <input id="exampleInputEmail1" type="email" name="account_email" placeholder="Enter email" autocomplete="off" ng-model="account.email" required="" class="form-control" />
+               <span class="fa fa-envelope form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.account_email.$dirty &amp;&amp; login.loginForm.account_email.$error.required" class="text-danger">This field is required</span>
+               <span ng-show="login.loginForm.account_email.$dirty &amp;&amp; login.loginForm.account_email.$error.email" class="text-danger">This field must be a valid email address</span>
+            </div>
+            <div class="form-group has-feedback">
+               <input id="exampleInputPassword1" type="password" name="account_password" placeholder="Password" ng-model="account.password" required="" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.account_password.$dirty &amp;&amp; login.loginForm.account_password.$error.required" class="text-danger">This field is required</span>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+         </form>
+         <div ng-show="login.authMsg" class="alert alert-danger text-center">{{login.authMsg}}</div>
+      </div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center login-footer">
+      <span>&copy;</span>
+      <span ng-bind="app.year"></span>
+      <span>-</span>
+      <span ng-bind="app.name"></span>
+      <br/>
+      <span ng-bind="app.description"></span>
+   </div>
+</div>
+</div>

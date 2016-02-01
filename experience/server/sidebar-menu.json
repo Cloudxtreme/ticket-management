@@ -1,0 +1,13 @@
+[
+  {
+    "text": "Menu Heading",
+    "heading": "true",
+    "translate": "sidebar.heading.HEADER"
+  },
+  {
+    "text": "Dashboard",
+    "sref": "app.Dashboard",
+    "icon": "fa fa-glass",
+    "translate": "sidebar.nav.DASHBOARD"
+  }
+]
