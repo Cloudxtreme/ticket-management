@@ -67,7 +67,7 @@ var vendor = {
   }
 };
 
-// SOURCES CONFIG 
+// SOURCES CONFIG
 var source = {
   scripts: {
     app:    [ 'js/app.init.js',
@@ -113,7 +113,7 @@ var source = {
   }
 };
 
-// BUILD TARGET CONFIG 
+// BUILD TARGET CONFIG
 var build = {
   scripts: {
     app: {
@@ -160,7 +160,7 @@ gulp.task('scripts:vendor:base', function() {
     // Minify and copy all JavaScript (except vendor scripts)
     return gulp.src(vendor.base.source)
         .pipe(expect(vendor.base.source))
-        .pipe(uglify())
+//        .pipe(uglify())
         .pipe(concat(vendor.base.name))
         .pipe(gulp.dest(vendor.base.dest))
         ;
@@ -168,21 +168,21 @@ gulp.task('scripts:vendor:base', function() {
 
 // copy file from bower folder into the app vendor folder
 gulp.task('scripts:vendor:app', function() {
-  
+
   var jsFilter = gulpFilter('**/*.js');
   var cssFilter = gulpFilter('**/*.css');
 
   return gulp.src(vendor.app.source, {base: 'bower_components'})
       .pipe(expect(vendor.app.source))
       .pipe(jsFilter)
-      .pipe(uglify({
-          mangle: {
-            except: ['$super'] // rickshaw requires this
-          }
-        }))
+      // .pipe(uglify({
+      //     mangle: {
+      //       except: ['$super'] // rickshaw requires this
+      //     }
+      //   }))
       .pipe(jsFilter.restore())
       .pipe(cssFilter)
-      .pipe(minifyCSS())
+//      .pipe(minifyCSS())
       .pipe(cssFilter.restore())
       .pipe( gulp.dest(vendor.app.dest) );
 
@@ -342,7 +342,8 @@ gulp.task('usesources', function(){ useSourceMaps = true; });
 gulp.task('default', gulpsync.sync([
           'scripts:vendor',
           'scripts:app',
-          'start'
+          'start',
+          'watch'
         ]), function(){
 
   gutil.log(gutil.colors.cyan('************'));
@@ -372,7 +373,7 @@ function handleError(err) {
 
 // Mini gulp plugin to flip css (rtl)
 function flipcss(opt) {
-  
+
   if (!opt) opt = {};
 
   // creating a stream through which each file will pass
