@@ -1,1 +1,117 @@
-$.fn.dataTableExt.oApi.fnPagingInfo=function(a){return{iStart:a._iDisplayStart,iEnd:a.fnDisplayEnd(),iLength:a._iDisplayLength,iTotal:a.fnRecordsTotal(),iFilteredTotal:a.fnRecordsDisplay(),iPage:-1===a._iDisplayLength?0:Math.ceil(a._iDisplayStart/a._iDisplayLength),iTotalPages:-1===a._iDisplayLength?0:Math.ceil(a.fnRecordsDisplay()/a._iDisplayLength)}},$.extend($.fn.dataTableExt.oPagination,{bootstrap:{fnInit:function(a,i,e){var t=a.oLanguage.oPaginate,l=function(i){i.preventDefault(),a.oApi._fnPageChange(a,i.data.action)&&e(a)};$(i).append('<ul class="pagination"><li class="prev disabled"><a href="#"><i class="icon-double-angle-left"></i> '+t.sPrevious+'</a></li><li class="next disabled"><a href="#">'+t.sNext+' <i class="icon-double-angle-right"></i></a></li></ul>');var s=$("a",i);$(s[0]).bind("click.DT",{action:"previous"},l),$(s[1]).bind("click.DT",{action:"next"},l)},fnUpdate:function(a,i){var e,t,l,s,n,o=5,r=a.oInstance.fnPagingInfo(),d=a.aanFeatures.p,c=Math.floor(o/2);for(r.iTotalPages<o?(s=1,n=r.iTotalPages):r.iPage<=c?(s=1,n=o):r.iPage>=r.iTotalPages-c?(s=r.iTotalPages-o+1,n=r.iTotalPages):(s=r.iPage-c+1,n=s+o-1),e=0,iLen=d.length;e<iLen;e++){for($("li:gt(0)",d[e]).filter(":not(:last)").remove(),t=s;n>=t;t++)l=t==r.iPage+1?'class="active"':"",$("<li "+l+'><a href="#">'+t+"</a></li>").insertBefore($("li:last",d[e])[0]).bind("click",function(e){e.preventDefault(),a._iDisplayStart=(parseInt($("a",this).text(),10)-1)*r.iLength,i(a)});0===r.iPage?$("li:first",d[e]).addClass("disabled"):$("li:first",d[e]).removeClass("disabled"),r.iPage===r.iTotalPages-1||0===r.iTotalPages?$("li:last",d[e]).addClass("disabled"):$("li:last",d[e]).removeClass("disabled")}}}}),$(function(){$(".datatable").each(function(){var a=$(this),i=a.closest(".dataTables_wrapper").find("div[id$=_filter] input");i.attr("placeholder","Search"),i.addClass("form-control input-small"),i.css("width","250px");var e=a.closest(".dataTables_wrapper").find("div[id$=_filter] a");e.html('<i class="icon-remove-circle icon-large"></i>'),e.css("margin-left","5px");var t=a.closest(".dataTables_wrapper").find("div[id$=_length] select");t.addClass("form-control input-small"),t.css("width","75px");var t=a.closest(".dataTables_wrapper").find("div[id$=_info]");t.css("margin-top","18px")})});
+/* API method to get paging information */
+$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
+{
+    return {
+        "iStart":         oSettings._iDisplayStart,
+        "iEnd":           oSettings.fnDisplayEnd(),
+        "iLength":        oSettings._iDisplayLength,
+        "iTotal":         oSettings.fnRecordsTotal(),
+        "iFilteredTotal": oSettings.fnRecordsDisplay(),
+        "iPage":          oSettings._iDisplayLength === -1 ?
+            0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
+        "iTotalPages":    oSettings._iDisplayLength === -1 ?
+            0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
+    };
+}
+ 
+/* Bootstrap style pagination control */
+$.extend( $.fn.dataTableExt.oPagination, {
+    "bootstrap": {
+        "fnInit": function( oSettings, nPaging, fnDraw ) {
+            var oLang = oSettings.oLanguage.oPaginate;
+            var fnClickHandler = function ( e ) {
+                e.preventDefault();
+                if ( oSettings.oApi._fnPageChange(oSettings, e.data.action) ) {
+                    fnDraw( oSettings );
+                }
+            };
+ 
+            $(nPaging).append(
+                '<ul class="pagination">'+
+                    '<li class="prev disabled"><a href="#"><i class="icon-double-angle-left"></i> '+oLang.sPrevious+'</a></li>'+
+                    '<li class="next disabled"><a href="#">'+oLang.sNext+' <i class="icon-double-angle-right"></i></a></li>'+
+                '</ul>'
+            );
+            var els = $('a', nPaging);
+            $(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
+            $(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+        },
+ 
+        "fnUpdate": function ( oSettings, fnDraw ) {
+            var iListLength = 5;
+            var oPaging = oSettings.oInstance.fnPagingInfo();
+            var an = oSettings.aanFeatures.p;
+            var i, j, sClass, iStart, iEnd, iHalf=Math.floor(iListLength/2);
+ 
+            if ( oPaging.iTotalPages < iListLength) {
+                iStart = 1;
+                iEnd = oPaging.iTotalPages;
+            }
+            else if ( oPaging.iPage <= iHalf ) {
+                iStart = 1;
+                iEnd = iListLength;
+            } else if ( oPaging.iPage >= (oPaging.iTotalPages-iHalf) ) {
+                iStart = oPaging.iTotalPages - iListLength + 1;
+                iEnd = oPaging.iTotalPages;
+            } else {
+                iStart = oPaging.iPage - iHalf + 1;
+                iEnd = iStart + iListLength - 1;
+            }
+ 
+            for ( i=0, iLen=an.length ; i<iLen ; i++ ) {
+                // Remove the middle elements
+                $('li:gt(0)', an[i]).filter(':not(:last)').remove();
+ 
+                // Add the new list items and their event handlers
+                for ( j=iStart ; j<=iEnd ; j++ ) {
+                    sClass = (j==oPaging.iPage+1) ? 'class="active"' : '';
+                    $('<li '+sClass+'><a href="#">'+j+'</a></li>')
+                        .insertBefore( $('li:last', an[i])[0] )
+                        .bind('click', function (e) {
+                            e.preventDefault();
+                            oSettings._iDisplayStart = (parseInt($('a', this).text(),10)-1) * oPaging.iLength;
+                            fnDraw( oSettings );
+                        } );
+                }
+ 
+                // Add / remove disabled classes from the static elements
+                if ( oPaging.iPage === 0 ) {
+                    $('li:first', an[i]).addClass('disabled');
+                } else {
+                    $('li:first', an[i]).removeClass('disabled');
+                }
+ 
+                if ( oPaging.iPage === oPaging.iTotalPages-1 || oPaging.iTotalPages === 0 ) {
+                    $('li:last', an[i]).addClass('disabled');
+                } else {
+                    $('li:last', an[i]).removeClass('disabled');
+                }
+            }
+        }
+    }
+} );
+
+$(function(){
+    $('.datatable').each(function(){
+        var datatable = $(this);
+        // SEARCH - Add the placeholder for Search and Turn this into in-line formcontrol
+        var search_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] input');
+        search_input.attr('placeholder', 'Search')
+        search_input.addClass('form-control input-small')
+        search_input.css('width', '250px')
+ 
+        // SEARCH CLEAR - Use an Icon
+        var clear_input = datatable.closest('.dataTables_wrapper').find('div[id$=_filter] a');
+        clear_input.html('<i class="icon-remove-circle icon-large"></i>')
+        clear_input.css('margin-left', '5px')
+ 
+        // LENGTH - Inline-Form control
+        var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+        length_sel.addClass('form-control input-small')
+        length_sel.css('width', '75px')
+ 
+        // LENGTH - Info adjust location
+        var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_info]');
+        length_sel.css('margin-top', '18px')
+    });
+});
