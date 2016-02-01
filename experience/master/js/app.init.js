@@ -1,18 +1,18 @@
 /*!
- * 
+ *
  * Angle - Bootstrap Admin App + AngularJS
- * 
+ *
  * Author: @themicon_co
  * Website: http://themicon.co
  * License: http://support.wrapbootstrap.com/knowledge_base/topics/usage-licenses
- * 
+ *
  */
 
 if (typeof $ === 'undefined') { throw new Error('This application\'s JavaScript requires jQuery'); }
 
 // APP START
-// ----------------------------------- 
-var BASE_URL="http://localhost:8080/ticket-management/api/v1/";
+// -----------------------------------
+var BASE_URL="http://localhost:8080/ticket-management/api/v1";
 var App = angular.module('angle', [
     'ngRoute',
     'ngAnimate',
@@ -42,7 +42,7 @@ App.run(["$rootScope", "$state", "$stateParams",  '$window', '$templateCache', f
     });*/
 
     // Scope Globals
-    // ----------------------------------- 
+    // -----------------------------------
     $rootScope.app = {
       name: 'EDT experience',
       description: 'EDT App Creation Tool',

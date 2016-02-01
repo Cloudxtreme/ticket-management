@@ -1,69 +1,57 @@
 <div class="row" id="1" ng-show="div1">
-    <div class="columns col-md-12 id_11" id="1">
-        <div class="form-group dragwidgets formElement" style="position: relative;">
-            <label>Summary  :</label>
-            <input type="text" class="form-control" placeholder="Enter Details" rows="3" ng-model="requestDetails.Summary"></textarea>
-           <label>Description  :</label>
-            <textarea type="textarea" class="form-control" placeholder="Enter Details" rows="3" ng-model="requestDetails.Description"></textarea>
-              
-	   </div>
-
-        <center>
-            <div class="btn btn-info dragwidgets formElement" id="btn" name="Next" ng-click="next()" style="position: relative;">Next</div>
-            <center>
+  <div class="columns col-md-12 id_11" id="1">
+    <div class="form-group dragwidgets formElement" style="position: relative;">
+      <label>Summary  :</label>
+      <input type="text" class="form-control" placeholder="Enter brief summary about issue" rows="3" ng-model="requestDetails.summary"></textarea>
+      <label>Description  :</label>
+      <textarea type="textarea" class="form-control" placeholder="Enter detailed description about issue." rows="3" ng-model="requestDetails.description"></textarea>
     </div>
-</div>
-
-<div ng-show="div2">
-  <div class="row" id="5">
+    <center>
+      <div class="btn btn-info dragwidgets formElement" id="btn" name="Next" ng-click="next()" style="position: relative;">Next</div>
+      <center>
+      </div>
+    </div>
+    <div ng-show="div2">
+      <div class="row" id="5">
         <div class="columns col-md-6 id_11" id="1">
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Name : {{ticketDetails.Name}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Name : {{ticketDetails.name}}</div>
         </div>
         <div class="columns col-md-6 id_52" id="2">
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Request Type : {{ticketDetails.RequestType}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Request Type : {{ticketDetails.requestType}}</div>
         </div>
-    </div>
-    <div class="row" id="8">
+      </div>
+      <div class="row" id="8">
         <div class="columns col-md-12 id_81" id="1">
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Project Name : {{ticketDetails.ProjectName}}</div>
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 1:
-			   <select class="form-control" name="tier1" ng-model="ticketDetails.Tier1">
-                    <option value="" disabled style="background-color:white;color:black;">select One Type</option>
-                      <option ng-repeat="tier1 in Tier1" value="{{tier1}}" style="background-color:white;color:black;">{{tier1}}</option>
-			   
-                  </select>
-			</div>
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 2:
-			   <select class="form-control" name="tier2" ng-model="ticketDetails.Tier2">
-                  <option value="" disabled style="background-color:white;color:black;">select One Type</option>
-                      <option ng-repeat="tier2 in Tier2" value="{{tier2}}" style="background-color:white;color:black;">{{tier2}}</option>
-			   
-                  </select>
-			</div>
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 3:
-			   <select class="form-control" name="tier3" ng-model="ticketDetails.Tier3">
-                  <option value="" disabled style="background-color:white;color:black;">select One Type</option>
-                      <option ng-repeat="tier3 in Tier3" value="{{tier3}}" style="background-color:white;color:black;">{{tier3}}</option>
-			   
-                  </select>
-			</div>
-            <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Urgency :
-			   <!-- <select class="form-control" name="urgency" ng-model="ticketDetails.Urgency1" > 
-			     <option value="" disabled style="background-color:white;color:black;">select One Type</option>
-                      <option ng-repeat="urgent in Urgency" value="{{urgent}}" style="background-color:white;color:black;">{{urgent}}</option>
-			   
-                  </select> -->
-				  <select class="form-control" ng-model="ticketDetails.Urgency1" ng-options="urgent in Urgency"></select>
-				 
-				  {{ticketDetails.Urgency1}}
-			</div>
-            <center> <div class="btn btn-info dragwidgets formElement" id="btn" name="formButtonLabel" ng-click="submit()" style="position: relative;">Submit</div>
-			 </center>
-			  <script type="text/ng-template" id="PopUp">
-    <div class="ngdialog-message">
-    <div class="col-xs-12" style="text-align:center;font-size:16px">Your Request ID is :{{}}.We will help you soon!!!</div>
-    <button style="background-color:#09417A;color:white;font-weight:bold;width:100%;margin-top:15px;font-size:16px" type="button" ng-click="closePopup()" class="btn">OK</button></div>
-    </script>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Project Name : {{ticketDetails.projectName}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 1:
+            <select class="form-control" name="tier1" ng-model="ticketDetails.tierOneCategory">
+              <option value="" disabled style="background-color:white;color:black;">Select category</option>
+              <option ng-repeat="tierOneCategory in TierOneCategories" value="{{tierOneCategory}}" style="background-color:white;color:black;">{{tierOneCategory}}</option>
+            </select>
+          </div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 2:
+            <select class="form-control" name="tier2" ng-model="ticketDetails.tierTwoCategory">
+              <option value="" disabled style="background-color:white;color:black;">Select category</option>
+              <option ng-repeat="tierTwoCategory in tierTwoCategories" value="{{tierTwoCategory}}" style="background-color:white;color:black;">{{tierTwoCategory}}</option>
+
+            </select>
+          </div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 3:
+            <select class="form-control" name="tier3" ng-model="ticketDetails.tierThreeCategory">
+              <option value="" disabled style="background-color:white;color:black;">Select category</option>
+              <option ng-repeat="tierThreeCategory in tierThreeCategories" value="{{tier3}}" style="background-color:white;color:black;">{{tierThreeCategory}}</option>
+            </select>
+          </div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Priority :
+            <select class="form-control" ng-model="ticketDetails.urgency" ng-options="priority in priorities"></select>
+          </div>
+          <center> <div class="btn btn-info dragwidgets formElement" id="btn" name="formButtonLabel" ng-click="submit()" style="position: relative;">Submit</div>
+          </center>
+          <script type="text/ng-template" id="PopUp">
+          <div class="ngdialog-message">
+          <div class="col-xs-12" style="text-align:center;font-size:16px">Your unique request Id is :{{}}. Kindly note it for futher communication.</div>
+          <button style="background-color:#09417A;color:white;font-weight:bold;width:100%;margin-top:15px;font-size:16px" type="button" ng-click="closePopup()" class="btn">OK</button></div>
+          </script>
         </div>
+      </div>
     </div>
-	</div>

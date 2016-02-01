@@ -138,11 +138,9 @@ definitions:
   TicketDetails:
     required:
       - serviceCategory
-      - projectName
       - tierOneCategory
       - tierTwoCategory
       - tierThreeCategory
-      - urgency
     properties:
       serviceCategory:
         type: string
