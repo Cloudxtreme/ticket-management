@@ -8,8 +8,12 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0"
+    "js-yaml": "^3.5.2",
+    "serve-static": "^1.10.2",
+    "swagger-express-mw": "^0.1.0",
+    "swagger-ui": "^2.1.4"
   },
   "devDependencies": {
     "should": "^7.1.0",

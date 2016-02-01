@@ -2,7 +2,6 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: Ticket management
-# during dev, should point to your local machine
 host: localhost:8080
 basePath: /ticket-management/api/v1/
 schemes:
@@ -12,12 +11,16 @@ consumes:
 produces:
   - application/json
 paths:
-  /tickets/classify:
-    x-swagger-router-controller: classify
+  /users/{userId}/tickets:
+    x-swagger-router-controller: ticket
     post:
-      description: Classify ticket and returns TicketDetails object populated with classifications.
-      operationId: classify
+      description: Create new ticket in system. On successful creation, returns Ticket object populated with unique identifier.
+      operationId: create
       parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
         - name: Ticket
           in: body
           description: Object encapsulating ticket details.
@@ -25,11 +28,73 @@ paths:
           schema:
             type: object
             $ref: "#/definitions/Ticket"
+        - name: Authorization
+          in: header
+          required: false
+          type: string
       responses:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/TicketDetails"
+            $ref: "#/definitions/Ticket"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users/{userId}/tickets/search:
+    x-swagger-router-controller: ticket
+    post:
+      description: Get tickets filtered by status.
+      operationId: getByStatus
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: TicketQuery
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/TicketQuery"
+        - name: Authorization
+          in: header
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Returns list of tickets associated with status.
+          schema:
+            $ref: "#/definitions/Tickets"
+        default:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users/{userId}/tickets/classify:
+    x-swagger-router-controller: classify
+    post:
+      description: Use request description to identify classifications and returns Ticket object populated with classifications.
+      operationId: classify
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: RequestDetails
+          in: body
+          description: Object encapsulating request details.
+          required: true
+          schema:
+            type: object
+            $ref: "#/definitions/RequestDetails"
+        - name: Authorization
+          in: header
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/Ticket"
         default:
           description: Error
           schema:
@@ -37,24 +102,36 @@ paths:
   /swagger:
     x-swagger-pipe: swagger_raw
 definitions:
-  Ticket:
+  RequestDetails:
     required:
       - summary
       - description
     properties:
-      uuid:
-        type: string
       summary:
         type: string
       description:
         type: string
+  Ticket:
+    required:
+      - requestDetails
+      - ticketDetails
+    properties:
+      uuid:
+        type: string
+      requestDetails:
+        type: object
+        $ref : "#/definitions/RequestDetails"
       status:
         type: string
       requesterId:
         type: string
+      supportUserId:
+        type: string
+      ticketDetails:
+        type: object
+        $ref : "#/definitions/TicketDetails"
   TicketDetails:
     required:
-      - ticket
       - serviceCategory
       - projectName
       - tierOneCategory
@@ -62,9 +139,6 @@ definitions:
       - tierThreeCategory
       - urgency
     properties:
-      ticket:
-        type: object
-        $ref : "#/definitions/Ticket"
       serviceCategory:
         type: string
       projectName:
@@ -77,8 +151,37 @@ definitions:
         type: string
       urgency:
         type: string
-      supportUserId:
+      attachment:
         type: string
+  TicketQuery:
+    required:
+      - status
+      - queryType
+      - offset
+      - limit
+    properties:
+      status:
+        type: array
+        items:
+          type: string
+      queryType:
+        type: string
+      offset:
+        type: integer
+      limit:
+        type: integer
+  Tickets:
+    required:
+      - tickets
+      - count
+    properties:
+      tickets:
+        type: array
+        items:
+          $ref: '#/definitions/Ticket'
+      count:
+        type: integer
+        format: int32
   ErrorResponse:
     required:
       - message
