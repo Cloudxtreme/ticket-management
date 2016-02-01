@@ -1,0 +1,87 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Ticket management
+# during dev, should point to your local machine
+host: localhost:8080
+basePath: /ticket-management/api/v1/
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /tickets/classify:
+    x-swagger-router-controller: classify
+    post:
+      description: Classify ticket and returns TicketDetails object populated with classifications.
+      operationId: classify
+      parameters:
+        - name: Ticket
+          in: body
+          description: Object encapsulating ticket details.
+          required: true
+          schema:
+            type: object
+            $ref: "#/definitions/Ticket"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/TicketDetails"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  Ticket:
+    required:
+      - summary
+      - description
+    properties:
+      uuid:
+        type: string
+      summary:
+        type: string
+      description:
+        type: string
+      status:
+        type: string
+      requesterId:
+        type: string
+  TicketDetails:
+    required:
+      - ticket
+      - serviceCategory
+      - projectName
+      - tierOneCategory
+      - tierTwoCategory
+      - tierThreeCategory
+      - urgency
+    properties:
+      ticket:
+        type: object
+        $ref : "#/definitions/Ticket"
+      serviceCategory:
+        type: string
+      projectName:
+        type: string
+      tierOneCategory:
+        type: string
+      tierTwoCategory:
+        type: string
+      tierThreeCategory:
+        type: string
+      urgency:
+        type: string
+      supportUserId:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
