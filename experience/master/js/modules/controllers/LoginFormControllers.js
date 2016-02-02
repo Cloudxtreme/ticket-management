@@ -1,17 +1,12 @@
 App.controller('LoginFormController', ['$scope','$rootScope','$state', '$http', function($scope,$rootScope, $state, $http) {
 
 	var loginURL = BASE_URL + "/auth";
-	
-	$rootScope.showNavHeader=false;
-	$rootScope.footerBtns=false;
-	$rootScope.headerTitle="Login";
-	$rootScope.showSidebar=false;
 	$scope.inputType = 'password';
 	$scope.invalidCredentials=false;
 	$scope.errorMsg="";
 	$scope.userCredentials = {
-		username: "",
-		password: ""
+		username: "vishal_mahajan@persistent.co.in",
+		password: "vishal"
 	};
 	$scope.hideShowPassword = function(){
 		if ($scope.inputType == 'password')

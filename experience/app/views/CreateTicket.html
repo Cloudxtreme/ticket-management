@@ -2,12 +2,18 @@
   <div class="columns col-md-12 id_11" id="1">
    <form role="form" name="myForm" novalidate class="form-validate mb-lg">
     <div class="form-group dragwidgets formElement" style="position: relative;">
-      <label>Summary  :</label>
-      <input type="text" class="form-control" placeholder="Enter brief summary about issue" ng-model="requestDetails.summary" required></textarea>
-	    <span ng-show="myForm.$submitted|| (myForm.fn.$dirty && myForm.fn.$error.required)" class="text-danger">This field is required</span>
-      <label>Description  :</label>
-      <textarea type="textarea" class="form-control" placeholder="Enter detailed description about issue." rows="3" ng-model="requestDetails.description"></textarea>
-    </div>
+	<span ng-show="fillAllDetails" class="text-danger">Please Fill All Details</span>
+	<br/>
+      <label>Summary  :</label> 
+	  <span ng-show="myForm.$submitted|| (myForm.sm.$dirty && myForm.sm.$error.required)" class="text-danger">This field is required</span>
+      <input type="text" name="sm" class="form-control" placeholder="Enter brief summary about issue" ng-model="requestDetails.summary" required />
+	    
+      <br/>
+	  <label>Description  :</label>
+	  <span ng-show="myForm.$submitted|| (myForm.desc.$dirty && myForm.desc.$error.required)" class="text-danger">This field is required</span>
+      <textarea type="textarea" name="desc" class="form-control" placeholder="Enter detailed description about issue." rows="3" ng-model="requestDetails.description" required="required"></textarea>
+  
+	</div>
     <center>
       <div class="btn btn-info dragwidgets formElement" id="btn" name="Next" ng-click="next()" style="position: relative;">Next</div>
       <center>
@@ -20,7 +26,7 @@
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Name : {{ticketDetails.name}}</div>
         </div>
         <div class="columns col-md-6 id_52" id="2">
-          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Request Type : {{ticketDetails.requestType}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Service Category : {{ticketDetails.serviceCategory}}</div>
         </div>
       </div>
       <div class="row" id="8">
@@ -46,7 +52,9 @@
             </select>
           </div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Priority :
-            <select class="form-control" ng-model="ticketDetails.urgency" ng-options="priority in priorities"></select>
+            <select class="form-control" ng-model="ticketDetails.urgency">
+			<option ng-repeat="priority in priorities" value="{{priority}}" style="background-color:white;color:black;">{{priority}}</option>
+			</select>
           </div>
           <center> <div class="btn btn-info dragwidgets formElement" id="btn" name="formButtonLabel" ng-click="submit()" style="position: relative;">Submit</div>
           </center>
