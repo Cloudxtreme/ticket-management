@@ -11,6 +11,54 @@ consumes:
 produces:
   - application/json
 paths:
+  /auth:
+    x-swagger-router-controller: auth
+    post:
+      description: Authenticate user access to APIs and on success returns token that should be passed as Bearer token in consecutive calls to secured APIs.
+      operationId: auth
+      parameters:
+        - name: UserCredential
+          in: body
+          required: true
+          schema:
+            type: object
+            $ref: "#/definitions/UserCredential"
+      responses:
+        "200":
+          description: Authenticated user token
+          schema:
+            $ref: "#/definitions/UserToken"
+        default:
+          description: Unauthorized access
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users/{userId}:
+    x-swagger-router-controller: user
+    get:
+      description: Return user details.
+      operationId: getById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Returns user object populated with details.
+          schema:
+            $ref: "#/definitions/User"
+        "404":
+          description: No user account associated with userId passed in path.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        default:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /users/{userId}/tickets:
     x-swagger-router-controller: ticket
     post:
@@ -102,6 +150,68 @@ paths:
   /swagger:
     x-swagger-pipe: swagger_raw
 definitions:
+  UserCredential:
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  User:
+    required:
+      - firstName
+      - lastName
+      - gender
+      - mobileNo
+      - username
+      - password
+    properties:
+      uuid:
+        type: string
+        format: uuid
+      firstName:
+        type: string
+      lastName:
+        type: string
+      gender:
+        type: string
+        enum: ["Male", "Female"]
+      mobileNo:
+        type: integer
+        format: int32
+        maxLength: 10
+        minLength: 10
+      username:
+        type: string
+      password:
+        type: string
+      project:
+        type: object
+        $ref : "#/definitions/Project"
+  Project:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      uuid:
+        type: string
+        format: uuid
+  UserToken:
+    required:
+      - username
+      - token
+      - uuid
+    properties:
+      username:
+        type: string
+      token:
+        type: string
+      uuid:
+        type: string
+        format: uuid
   RequestDetails:
     required:
       - summary
