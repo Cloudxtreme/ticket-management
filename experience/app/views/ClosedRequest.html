@@ -1,6 +1,13 @@
-<div class="col-xs-8" style="width:100%;background-color: transparent;" when-scrolled="" id="fixed">
-<!-- <span style="color:white"> Showing {{deliveredConsignments.length}} out of {{total}} records </span>  -->
-  <div class="panel panel-default" style="border:none;" > <!--ng-repeat="" -->
+<style>
+#fixed {
+    height: 500px; 
+    overflow-y: auto;
+    /*border: 1px solid #DDD;*
+}
+</style>
+<div class="col-xs-8" style="width:100%;background-color: transparent;" when-scrolled="loadMore()" id="fixed">
+<span> Showing {{closedTickets.length}} out of {{total}} records </span> 
+  <div class="panel panel-default" style="border:none;" ng-repeat="ticket in closedTickets"> 
     <div class="panel-body">
       <div class="row">
         <div class="col-xs-12">
@@ -15,28 +22,21 @@
             <div class="col-xs-6 panelFont" style="color:#09417A;font-weight:bold;font-size:15px;">TurnAround Time  <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
           </div>
 		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-weight:bold;font-size:15px;">Support Engineer : {{}}  </div></div>
-      
-	   <!--   <div class="row" style="margin-top:7px;">
-            <div class="col-xs-6 panelFont"> <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
-            <div class="col-xs-6 panelFont">Support Engineer<div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
-          </div> -->
+     
         </div>
       </div>
     </div>
   </div>
-  <!-- This div will be showed whenever ajax request is active to bring more records 
+  <!-- This div will be showed whenever ajax request is active to bring more records -->
             <div ng-show="loadingResult" class="span9 pv-message" style="color:white"> </div>
-            <!-- if server does not has more records to load then following div will inform the user that it is end of records 
-            <div ng-show="!loadingResult && (deliveredConsignments.length == total)&& deliveredConsignments.length != 0" class="span9 pv-message">
+            <!-- if server does not has more records to load then following div will inform the user that it is end of records -->
+            <div ng-show="!loadingResult && (closedTickets.length == total)&& closedTickets.length != 0" class="span9 pv-message">
                 <legend> No more results to display. </legend>
             </div>
-            <!-- if no records found then following div will be showed 
-            <div ng-show="!loadingResult && deliveredConsignments.length == 0" class="span9 pv-message">
+            <!-- if no records found then following div will be showed -->
+            <div ng-show="!loadingResult && closedTickets.length == 0" class="span9 pv-message">
                 <legend> No record found!!! </legend>
             </div>
 </div>
           
-          
-        <div class="row" id="1">
-          <div class="columns col-md-12 id_11" id="1">
-          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Request ID :</div><div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Request Summary :</div></div></div>
+         
