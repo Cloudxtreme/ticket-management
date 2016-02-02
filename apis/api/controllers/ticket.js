@@ -7,7 +7,8 @@ User = require('./../dao/helper/orm-mapping.js').User,
 nodemailer = require('nodemailer'),
 fs = require('fs'),
 path = require('path'),
-appConfig = require('./../../config/config.js');
+appConfig = require('./../../config/config.js'),
+classifier = require('./../helpers/approval-classifier-service.js');
 
 function createTicket(req, res) {
 
@@ -40,8 +41,7 @@ function createTicket(req, res) {
             delete ticket.remarks;
           }
 
-          // send notification emails
-          sendEmail(user, ticket);
+          checkApprovalRequirement(user, ticket);
           console.log(ticket);
           res.json(ticket);
         }).catch(function (error) {
@@ -59,26 +59,67 @@ function createTicket(req, res) {
     });
   }
 
-  function sendEmail(user, ticket) {
+  function checkApprovalRequirement(user, ticket) {
+
+    var params = {
+      classifier: classifier.classifierId,
+      text: ticket.requestDetails.description
+    };
+
+    classifier.nlClassifier.classify(params, function(err, results) {
+      if (err) {
+        console.log(err);
+        return;
+      } else {
+        // use top class to identify whether approval required or not
+        var leaf = results.top_class.replace(/['"]+/g, '').trim();
+        if(leaf != 'Approval_Not_Required') {
+          sendEmail(leaf, user, ticket);
+
+          // move request to pending state
+          Ticket.findById(ticket.uuid)
+          .then(function (ticket) {
+            ticket.updateAttributes({
+              status: 'PENDING',
+              remarks: 'Awaiting approval'
+            }).then(function(updatedResult) {
+              console.log('status updated to pending state.');
+            });
+          });
+        } else {
+          console.log('approval not required for request.');
+        }
+      }
+    });
+  }
+
+  function sendEmail(approvalType, user, ticket) {
 
     var smtpConfig = {
-        host: appConfig['email.host'],
-        port: appConfig['email.port'],
-        secure: false,
-        auth: {
-            user: appConfig['email.sender.username'],
-            pass: appConfig['email.sender.password']
-        }
+      host: appConfig['email.host'],
+      port: appConfig['email.port'],
+      secure: false,
+      auth: {
+        user: appConfig['email.sender.username'],
+        pass: appConfig['email.sender.password']
+      }
     };
 
     var transporter = nodemailer.createTransport(smtpConfig);
 
-    sendTemplatizedEmail(transporter, user, ticket);
+    sendTemplatizedEmail(approvalType, transporter, user, ticket);
   }
 
-  function sendTemplatizedEmail(transporter, user, ticket) {
+  function sendTemplatizedEmail(approvalType, transporter, user, ticket) {
 
-    fs.readFile(path.resolve(__dirname, './../../template/network-approval-template.txt'),
+    var templateFilePath;
+    if(approvalType === 'Manager Approval') {
+      templateFilePath = path.resolve(__dirname, './../../template/network-approval-template.txt');
+    } else {
+      templateFilePath = path.resolve(__dirname, './../../template/compliance-approval-template.txt');
+    }
+
+    fs.readFile(templateFilePath,
     "utf-8", function (err, data) {
 
       if (err) {
@@ -138,7 +179,8 @@ function createTicket(req, res) {
           { model: TicketDetails, as : 'ticketDetails' }
         ],
         offset: offsetVal,
-        limit: limitVal
+        limit: limitVal,
+        order: 'created DESC'
       })
       .then(function (tickets) {
         var loopCount = 0,

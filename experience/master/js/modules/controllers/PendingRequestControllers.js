@@ -8,8 +8,8 @@ App.controller('PendingRequestController', ['$rootScope', '$scope', '$state', '$
       $scope.title = 'Pending Requests';
 
       // Fetch Data using APIs
-	  $scope.pendingTickets = [];  
-        $scope.count=0;		
+	  $scope.pendingTickets = [];
+        $scope.count=0;
         var url = BASE_URL + "/users/"+localStorage.getItem("uuid")+"/tickets/search";
         if (localStorage.getItem("uuid") != undefined) {
 
@@ -18,17 +18,17 @@ App.controller('PendingRequestController', ['$rootScope', '$scope', '$state', '$
                 currentPage: 0,
                 pageSize: 3
             };
-			
-			
+
+
             $scope.loadMore = function() {
-				if ($scope.loadingResult) 
-			{ 
-		       return; 
-			} 
-		   if ($scope.pagination.currentPage >= $scope.pagination.noOfPages) 
+				if ($scope.loadingResult)
 			{
-				return; 
-		    }  
+		       return;
+			}
+		   if ($scope.pagination.currentPage >= $scope.pagination.noOfPages)
+			{
+				return;
+		    }
                 $scope.pagination.currentPage = $scope.pagination.currentPage + 1;
                 $scope.offset = ($scope.pagination.currentPage - 1) * $scope.pagination.pageSize;
                 $scope.limit = $scope.pagination.pageSize;
@@ -51,22 +51,24 @@ App.controller('PendingRequestController', ['$rootScope', '$scope', '$state', '$
                 data: requestQuery,
                 headers: headers
                 };
-				
+
 				$http(request)
                     .success(function(data, status, headers, config) {
-						
+
 						console.log(JSON.stringify(data.tickets[0]));
                         console.log(JSON.stringify(data.tickets[0].uuid));
-						$scope.pendingTickets = $scope.pendingTickets.concat(data.tickets[0]);	                      
+						$scope.pendingTickets = $scope.pendingTickets.concat(data.tickets[0]);
                          $scope.loadingResult = false;
+
+                         console.log($scope.pendingTickets);
                       })
              .error(function(data, status, headers, config) {
                  console.log('error');
-             }); 
+             });
            };
-			 
+
                 $scope.initializeResultList = function() {
-					
+
 				   var consignmentQuery = {
                 'status': ['PENDING'],
                 'queryType': 'DETAILS',
@@ -85,7 +87,7 @@ App.controller('PendingRequestController', ['$rootScope', '$scope', '$state', '$
                 data: consignmentQuery,
                 headers: headers
                 };
-				
+
 				$http(request)
                     .success(function(data, status, headers, config) {
 						$scope.count=data.count;
@@ -95,12 +97,11 @@ App.controller('PendingRequestController', ['$rootScope', '$scope', '$state', '$
 		             })
              .error(function(data, status, headers, config) {
                  console.log('error');
-             }); 
+             });
 		       $scope.loadMore();
             };
-            $scope.initializeResultList();  
+            $scope.initializeResultList();
   }
-	  
+
   }
 ]);
-

@@ -20,7 +20,7 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
   $scope.tierOneCategories = [];
   $scope.ticketDetails = {
     "serviceCategory": "",
-    "projectName": "new",
+    "projectName": "",
     "tierOneCategory": "",
     "tierTwoCategory": "",
     "tierThreeCategory": "",
@@ -125,7 +125,7 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
         'Accept': 'application/json',
           "Authorization": "Bearer " + localStorage.getItem("token")
       };
-      
+
 	  var userRequest = {
         method: 'GET',
         url: getUserURL,
@@ -142,7 +142,7 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
       .error(function(data, status, headers, config) {
         console.log('error');
       });
-	  
+
       var request = {
         method: 'POST',
         url: classifyURL,
@@ -152,8 +152,10 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
 
       $http(request)
       .success(function(data, status, headers, config) {
-        console.log(data);
-        $scope.ticketDetails = data.ticketDetails;
+        $scope.ticketDetails.serviceCategory = data.ticketDetails.serviceCategory;
+        $scope.ticketDetails.tierOneCategory = data.ticketDetails.tierOneCategory;
+        $scope.ticketDetails.tierTwoCategory = data.ticketDetails.tierTwoCategory;
+        $scope.ticketDetails.tierThreeCategory = data.ticketDetails.tierThreeCategory;
       })
       .error(function(data, status, headers, config) {
         console.log('error');
@@ -190,7 +192,8 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
       var dialog=ngDialog.open({
         template: 'PopUp',
         controller: ['$scope','$rootScope', '$timeout','ngDialog', function ($scope, $rootScope,$timeout,ngDialog) {
-
+          $scope.ticket = {};
+          $scope.ticket.uuid = data.uuid;
           $scope.closePopup=function(){
             $scope.closeThisDialog();
             $state.transitionTo('app.Dashboard');

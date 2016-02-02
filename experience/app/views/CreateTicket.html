@@ -24,6 +24,7 @@
       <div class="row" id="5">
         <div class="columns col-md-6 id_11" id="1">
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Name : {{name}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Project Name : {{ticketDetails.projectName}}</div>
         </div>
         <div class="columns col-md-6 id_52" id="2">
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Service Category :
@@ -37,7 +38,6 @@
       </div>
       <div class="row" id="8">
         <div class="columns col-md-12 id_81" id="1">
-          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Project Name : {{ticketDetails.projectName}}</div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 1:
             <select class="form-control" name="tier1" ng-model="ticketDetails.tierOneCategory"
               ng-change="changeTierTwoCategories(ticketDetails.tierOneCategory)" >
@@ -67,7 +67,7 @@
           </center>
           <script type="text/ng-template" id="PopUp">
           <div class="ngdialog-message">
-          <div class="col-xs-12" style="text-align:center;font-size:16px">Your unique request Id is :{{}}. Kindly note it for futher communication.</div>
+          <div class="col-xs-12" style="text-align:center;font-size:16px">Your unique request ID is : {{ticket.uuid}} Kindly note it for futher communication.</div>
           <button style="background-color:#09417A;color:white;font-weight:bold;width:100%;margin-top:15px;font-size:16px" type="button" ng-click="closePopup()" class="btn">OK</button></div>
           </script>
         </div>

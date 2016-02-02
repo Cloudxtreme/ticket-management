@@ -1,39 +1,41 @@
 <style>
-#fixed {
-    height: 500px; 
+  #fixed {
+    height: 500px;
     overflow-y: auto;
     /*border: 1px solid #DDD;*
-}
+  }
 </style>
 <div class="col-xs-8" style="width:100%;background-color: transparent;" when-scrolled="loadMore()" id="fixed">
- <span> Showing {{pendingTickets.length}} out of {{total}} records </span>  
+  <span> Showing {{pendingTickets.length}} out of {{total}} records </span>
   <div class="panel panel-default" style="border:none;" ng-repeat="ticket in pendingTickets"> <!--ng-repeat="" -->
     <div class="panel-body">
       <div class="row">
         <div class="col-xs-12">
-          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Request summary : {{}}  </div></div>
-		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Request ID : {{}}  </div></div>
+          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">ID :
+            <span class="panelFontLeft" style="color:black;">{{ticket.uuid}} </span></div></div>
+          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Summary :
+            <span class="panelFontLeft" style="color:black;">{{ticket.requestDetails.summary}}</span></div></div>
+
           <div class="row" style="margin-top:7px;">
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Created Date <div class="panelFontLeft" style="color:black;">{{}}</div></div>
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Priority  <div class="panelFontLeft" style="color:black;">{{}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Created Date <div class="panelFontLeft" style="color:black;">{{ticket.created | date:'yyyy-MM-dd'}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Priority  <div class="panelFontLeft" style="color:black;">{{ticket.ticketDetails.urgency}}</div></div>
           </div>
-		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Support Engineer : {{}}  </div></div>
-  <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Pending Request Reason : {{}}  </div></div>
-     
+          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Support Engineer : {{ticket.ticketDetails.supportPerson.name}}  </div></div>
+          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Reason :
+            <span class="panelFontLeft" style="color:black;">{{ticket.remarks}}</span> </div></div>
+
         </div>
       </div>
     </div>
   </div>
   <!-- This div will be showed whenever ajax request is active to bring more records -->
-            <div ng-show="loadingResult" class="span9 pv-message"> </div>
-            <!-- if server does not has more records to load then following div will inform the user that it is end of records -->
-            <div ng-show="!loadingResult && (pendingTickets.length == total)&& pendingTickets.length != 0" class="span9 pv-message">
-                <legend> No more results to display. </legend>
-            </div>
-            <!-- if no records found then following div will be showed -->
-            <div ng-show="!loadingResult && pendingTickets.length == 0" class="span9 pv-message">
-                <legend> No record found!!! </legend>
-            </div>
+  <div ng-show="loadingResult" class="span9 pv-message"> </div>
+  <!-- if server does not has more records to load then following div will inform the user that it is end of records -->
+  <div ng-show="!loadingResult && (pendingTickets.length == total)&& pendingTickets.length != 0" class="span9 pv-message">
+    <legend> No more results to display. </legend>
+  </div>
+  <!-- if no records found then following div will be showed -->
+  <div ng-show="!loadingResult && pendingTickets.length == 0" class="span9 pv-message">
+    <legend> No record found!!! </legend>
+  </div>
 </div>
-          
-  
