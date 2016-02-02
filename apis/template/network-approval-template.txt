@@ -1,0 +1,16 @@
+Hi,
+
+This is with reference to your ticket.
+
+Kindly provide the information in below format:
+
+User Name :
+Project :
+Machine Name :
+System static IP Address :
+Destination IP address/URL :
+Port detail on which access required :
+Duration (max 6months) :
+Justification :
+
+Kindly provide the PM approval.

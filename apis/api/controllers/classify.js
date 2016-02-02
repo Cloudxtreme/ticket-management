@@ -12,6 +12,7 @@ function getClassifications(req, res) {
 
   classifier.nlClassifier.classify(params, function(err, results) {
     if (err) {
+      console.log(err);
       res.statusCode = 500;
       res.json(err);
       return;
