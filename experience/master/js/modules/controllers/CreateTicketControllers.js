@@ -7,9 +7,9 @@ App.controller('CreateTicketController', ['$rootScope', '$scope', '$state',
 '$http','ngDialog','$location',
 function ($rootScope, $scope, $state, $http,ngDialog,$location) {
 
-  var createURL= BASE_URL +"/users/12/tickets",
-  classifyURL= BASE_URL+"/users/12/tickets/classify";
-
+  var createURL= BASE_URL +"/users/"+localStorage.getItem("uuid")+"/tickets",
+  classifyURL= BASE_URL+"/users/"+localStorage.getItem("uuid")+"/tickets/classify";
+ var getUserURL=BASE_URL+"/users/"+localStorage.getItem("uuid");
   $scope.title = 'CreateTicket';
   $scope.requestDetails = {
     "summary" : "mouse is not working",
@@ -123,9 +123,26 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
       var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        //  "Authorization": "Bearer " + localStorage.getItem("token")
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      };
+      
+	  var userRequest = {
+        method: 'GET',
+        url: getUserURL,
+        headers: headers
       };
 
+      $http(userRequest)
+      .success(function(data, status, headers, config) {
+        console.log(data);
+		$scope.name=data.firstName+" "+data.lastName;
+		$scope.ticketDetails.projectName=data.project.name;
+       // $scope.ticketDetails = data.ticketDetails;
+      })
+      .error(function(data, status, headers, config) {
+        console.log('error');
+      });
+	  
       var request = {
         method: 'POST',
         url: classifyURL,
