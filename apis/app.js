@@ -1,8 +1,9 @@
 'use strict';
 
 var SwaggerExpress = require('swagger-express-mw'),
-app = require('express')(),
-cors = require('cors');
+  app = require('express')(),
+  cors = require('cors'),
+  mappings = require('./api/dao/helper/orm-mapping.js');
 
 module.exports = app; // for testing
 

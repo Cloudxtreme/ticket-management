@@ -12,17 +12,13 @@ function getClassifications(req, res) {
 
   classifier.nlClassifier.classify(params, function(err, results) {
     if (err) {
-      console.log(err);
       res.statusCode = 500;
       res.json(err);
       return;
     } else {
 
-      console.log(results);
-
       // use top class to identify the leaf node of categories hierarchy
       var leaf = results.top_class.replace(/['"]+/g, '').trim();
-      console.log(leaf);
       var categories = getCategories(leaf);
 
       if(categories.length) {
@@ -38,7 +34,6 @@ function getClassifications(req, res) {
           }
         };
 
-        console.log(ticketDetails);
         res.json(ticketDetails);
       } else {
         res.statusCode = 404;
@@ -48,8 +43,6 @@ function getClassifications(req, res) {
     }
   });
 }
-
-
 
 module.exports = {
   classify : getClassifications

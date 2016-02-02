@@ -1,0 +1,9 @@
+{
+  "node": true,
+  "curly": true,
+  "eqeqeq": true,
+  "undef": true,
+  "indent" : 2,
+  "white" : false,
+  "nomen" : true
+}
