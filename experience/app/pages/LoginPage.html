@@ -1,0 +1,75 @@
+<style>
+
+.content-wrapper {
+    border-top: none;
+    padding:0px;
+    width: 100%;
+    margin-top: -1px;
+}
+.socialImg{
+width:10%;
+height:10%;
+margin-right:10%;
+
+}
+.btnClass{
+
+background-color:transparent;
+border:none;
+}
+</style>
+<div data-ui-view="" data-autoscroll="false" class="wrapper ng-scope"><!-- uiView:  -->
+     <div class="panel panel-default" style="border:none;">
+    <div class="col-xs-8" style="width:100%;">
+      <div class="panel-body">
+         <p class="text-center pv"><img src="app/img/Persistent_logo.png" height=50% width=50%/></p>
+		 
+		     <div ng-show="invalidCredentials" style="color:red;">{{errorMsg}}</div>
+           <form role="form" name="loginForm" novalidate class="form-validate mb-lg">
+            <div class="form-group has-feedback">
+              <input type="email" name="input" ng-model="userCredentials.username" required class="form-control" placeholder="Enter Email" autocomplete="off">
+              <span class="fa fa-user form-control-feedback text-muted" style="ont-size:20px;padding-top: 2%;"></span>
+              <div style="color:red" ng-show="loginForm.$submitted ||(loginForm.input.$required)">
+              <span ng-show="loginForm.input.$error.required">Email is required.</span>
+              <span ng-show="loginForm.input.$error.email">Invalid email address.</span>
+              </div>
+            <div class="form-group has-feedback">
+               <input type="{{inputType}}" placeholder="Password" required="required" name="password" class="form-control" ng-model="userCredentials.password"/>
+               <span class="fa fa-unlock-alt form-control-feedback text-muted" style="font-size:20px;padding-top:2%;"></span>
+                <div style="color:red" ng-show="loginForm.$submitted ||(loginForm.password.$required)">
+				<span ng-show="loginForm.password.$error.required" class="text-danger">This field is required</span>
+				</div>
+            </div>
+            <div class="checkbox c-checkbox" align="center">
+                <label style="font-size:17px;">
+               <input type="checkbox" name="a" value="showPassword" ng-click="hideShowPassword()"/>
+				<span class="fa fa-check"></span>Show Password</label>
+			</div>
+		 
+            <button type="submit" class="btn btn-block btn-primary mt-lg" style="font-size:15pt;font-weight:bold;" ng-click="login()">Sign In</button>
+            	<button style="margin-top:15px;float:left;font-size:17px;" class="btnClass">Forgot password?</button>
+			<button style="margin-top:15px;float:right;font-size:17px;" class="btnClass" ng-click="register()">Register</button>
+
+            	<div class="row">
+			<div class="col-xs-6"><hr></div>
+			<div class="col-xs-1" style="padding:0px;margin-top:10px;">or</div>
+			<div class="col-xs-5"><hr></div>
+		</div>
+		<div style="text-align:center;width:100%;">
+		<div style="font-size:16px;">Sign In with your social account</div>
+		<div style="margin-top:15px;">
+			<img src="app/img/twitter.png" class="socialImg" style="background-color:black;">
+			<img src="app/img/facebook.png" class="socialImg" style="background-color:#3b5998;">
+			<img src="app/img/Google+.png" class="socialImg" style="background-color:#dc4a38;">
+		</div>
+		</div>
+         </form>
+    <!--      <div ng-show="false" class="alert alert-danger text-center">{{authMsg}}</div> -->
+      <!--    <p class="pt-lg text-center">Need to Signup?</p><a ui-sref="page.register" class="btn btn-block btn-default">Register Now</a> -->
+      </div>
+    </div>
+
+        </div>
+  
+</div>
+</div>
