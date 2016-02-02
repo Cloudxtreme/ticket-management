@@ -3,10 +3,10 @@ function ($urlRouterProvider) {
   'use strict';
 
   // Default route
-  $urlRouterProvider.when('/app/Dashboard', ['$state', function ($state) {
-            $state.go('app.Dashboard');  
+  $urlRouterProvider.when('/app/login', ['$state', function ($state) {
+            $state.go('app.login');  
 	}]).when('', ['$state', function ($state) {
-            $state.go('app.Dashboard');  
+            $state.go('app.login');  
 			}]);
 
 }]);

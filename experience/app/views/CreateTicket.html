@@ -1,14 +1,17 @@
 <div class="row" id="1" ng-show="div1">
   <div class="columns col-md-12 id_11" id="1">
+   <form role="form" name="myForm" novalidate class="form-validate mb-lg">
     <div class="form-group dragwidgets formElement" style="position: relative;">
       <label>Summary  :</label>
-      <input type="text" class="form-control" placeholder="Enter brief summary about issue" rows="3" ng-model="requestDetails.summary"></textarea>
+      <input type="text" class="form-control" placeholder="Enter brief summary about issue" ng-model="requestDetails.summary" required></textarea>
+	    <span ng-show="myForm.$submitted|| (myForm.fn.$dirty && myForm.fn.$error.required)" class="text-danger">This field is required</span>
       <label>Description  :</label>
       <textarea type="textarea" class="form-control" placeholder="Enter detailed description about issue." rows="3" ng-model="requestDetails.description"></textarea>
     </div>
     <center>
       <div class="btn btn-info dragwidgets formElement" id="btn" name="Next" ng-click="next()" style="position: relative;">Next</div>
       <center>
+	  </form>
       </div>
     </div>
     <div ng-show="div2">
