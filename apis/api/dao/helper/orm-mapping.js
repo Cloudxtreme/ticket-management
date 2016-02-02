@@ -3,7 +3,8 @@ var sequelize = require('./orm-connection-pool.js');
 var User = sequelize.import(__dirname + "/../mapping/user-mapping.js"),
   Ticket = sequelize.import(__dirname + "/../mapping/ticket-mapping.js"),
   TicketDetails = sequelize.import(__dirname + "/../mapping/ticket-details-mapping.js"),
-  RequestDetails = sequelize.import(__dirname + "/../mapping/request-mapping.js");
+  RequestDetails = sequelize.import(__dirname + "/../mapping/request-mapping.js"),
+  Project = sequelize.import(__dirname + "/../mapping/project-mapping.js");
 
 User.hasMany(Ticket, {
   foreignKey: {
@@ -11,6 +12,14 @@ User.hasMany(Ticket, {
     allowNull: true
   },
   as : "tickets"
+});
+
+Project.hasMany(User, {
+  foreignKey: {
+    name: 'project_id',
+    allowNull: true
+  },
+  as : "users"
 });
 
 Ticket.belongsTo(TicketDetails, {
@@ -37,5 +46,6 @@ module.exports = {
   User : User,
   Ticket : Ticket,
   TicketDetails : TicketDetails,
-  RequestDetails : RequestDetails
+  RequestDetails : RequestDetails,
+  Project : Project
 };

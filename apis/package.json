@@ -15,7 +15,8 @@
     "swagger-express-mw": "^0.1.0",
     "swagger-ui": "^2.1.4",
     "mysql": "^2.10.0",
-    "sequelize": "^3.16.0"
+    "sequelize": "^3.16.0",
+    "jsonwebtoken": "^5.5.4"
   },
   "devDependencies": {
     "should": "^7.1.0",
