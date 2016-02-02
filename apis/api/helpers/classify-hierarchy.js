@@ -23,10 +23,12 @@ module.exports.getCategories = function(key) {
   populateCategories(classificationHierarchy, key, categories);
   console.log(categories);
   if(categories.length > 1 && categories.length< 4) {
-    while(categories.length == 4) {
-    categories.push(categories[categories.length-1]);
+    while(categories.length != 4) {
+      console.log('pusing last category again');
+    categories.unshift(categories[0]);
     }
   }
+    console.log(categories);
   return categories;
 };
 

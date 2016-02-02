@@ -10,5 +10,9 @@ module.exports = {
   "db.schema" : "ticket-management",
   "db.username" : "edt",
   "db.password" : "Hackathon@123",
-  "db.host" : "localhost"
+  "db.host" : "localhost",
+  "email.host" : "smtp.office365.com",
+  "email.port" : 587,
+  "email.sender.username" : "<enter your email address>",
+  "email.sender.password" : "<enter your password>"
 };

@@ -11,12 +11,13 @@
     "cors": "^2.7.1",
     "express": "^4.12.3",
     "js-yaml": "^3.5.2",
+    "jsonwebtoken": "^5.5.4",
+    "mysql": "^2.10.0",
+    "nodemailer": "^2.1.0",
+    "sequelize": "^3.16.0",
     "serve-static": "^1.10.2",
     "swagger-express-mw": "^0.1.0",
-    "swagger-ui": "^2.1.4",
-    "mysql": "^2.10.0",
-    "sequelize": "^3.16.0",
-    "jsonwebtoken": "^5.5.4"
+    "swagger-ui": "^2.1.4"
   },
   "devDependencies": {
     "should": "^7.1.0",
