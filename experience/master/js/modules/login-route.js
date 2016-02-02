@@ -6,7 +6,7 @@ function ($stateProvider, helper) {
     .state('app.login', {
         url: '/login',
         title: 'Login',
-        templateUrl: helper.basepath('loginPage.html'),
+        templateUrl: helper.basepath('LoginPage.html'),
         controller: 'LoginFormController'
     });
 }]);

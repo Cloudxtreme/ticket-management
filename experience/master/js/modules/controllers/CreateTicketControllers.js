@@ -15,11 +15,12 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
     "summary" : "mouse is not working",
     "description": "mouse is not working"
   };
+  $scope.serviceCategories = ["IT", 'Admin', 'HR'];
   $scope.priorities = ["1-Critical", "2-High", "3-Medium", "4-Low"];
-  $scope.TierOneCategories = ["Project Activity ","Failure/Issue","Install/Configure","New/additional requirement/Provisioning"];
+  $scope.tierOneCategories = [];
   $scope.ticketDetails = {
-    "serviceCategory": "IT ",
-    "projectName": "new ",
+    "serviceCategory": "",
+    "projectName": "new",
     "tierOneCategory": "",
     "tierTwoCategory": "",
     "tierThreeCategory": "",
@@ -27,109 +28,123 @@ function ($rootScope, $scope, $state, $http,ngDialog,$location) {
     "attachment": ""
   };
 
-   if($scope.TierOneCategories=="Project Activity")
-  {
-    $scope.tierTwoCategories=["software and applications","network","Email Services"];
-    if($scope.tierTwoCategories=="software and applications")
-    {
-      $scope.tierThreeCategories=["Multiple software installation"];
+  $scope.$watch(
+    "ticketDetails.serviceCategory",
+    function handleChange(newValue, oldValue) {
+      $scope.populateTierOneCategories();
     }
-    if($scope.tierTwoCategories=="network")
-    {
-      $scope.tierThreeCategories=["site to site vpn","Project specific internet setup "];
+  );
+
+  $scope.$watch(
+    "ticketDetails.tierOneCategory",
+    function handleChange(newValue, oldValue) {
+      $scope.populateTierTwoCategories();
     }
-    if($scope.tierTwoCategories=="Email Services")
-    {
-      $scope.tierThreeCategories=["N/A"];
+  );
+
+  $scope.$watch(
+    "ticketDetails.tierTwoCategory",
+    function handleChange(newValue, oldValue) {
+      $scope.populateTierThreeCategories();
     }
-  
+  );
+
+  $scope.populateTierOneCategories = function() {
+
+    console.log('service category change event fired...');
+
+    if($scope.ticketDetails.serviceCategory === 'IT') {
+      $scope.tierOneCategories = ["Project Activity ","Failure / Issue","Install / Configure","New/additional requirement/Provisioning"];
+    } else {
+      $scope.tierOneCategories = ["Electrical"];
+    }
   }
-      
-	 if($scope.TierOneCategories=="Failure/Issue") 
-	 {
-		 $scope.tierTwoCategories=["Hardware and accessories"];
-		 $scope.tierThreeCategories=["Laptop hardware","Desktop hardware ","Accessories"];
-	 }
-  
-     
-  if($scope.TierOneCategories=="Install/Configure")
-  {
-    $scope.tierTwoCategories=["Hardware and accessories"];
-    $scope.tierThreeCategories=["Laptop hardware","Desktop hardware","Accessories"];
+
+  $scope.populateTierTwoCategories = function() {
+
+    console.log('tier one change event fired...');
+
+    if($scope.ticketDetails.tierOneCategory === "Project Activity") {
+      $scope.tierTwoCategories = ["software and applications","network","Email Services"];
+    } else if($scope.ticketDetails.tierOneCategory === "Failure / Issue") {
+      $scope.tierTwoCategories=["Hardware and accessories"];
+    } else if($scope.ticketDetails.tierOneCategory === "Install / Configure") {
+      $scope.tierTwoCategories=["Hardware and accessories", "SCM (CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)", "Network", "software and applications", "Email Services"];
+    } else if($scope.ticketDetails.tierOneCategory == "New/additional requirement/Provisioning") {
+      $scope.tierTwoCategories=["Other IT Services"];
+    }
   }
-  if($scope.TierOneCategories=="Project Activity")
-  {
-    $scope.tierTwoCategories=["Hardware and accessories","SCM(CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)","Network","software and applications","Email Services"];
-    if($scope.tierTwoCategories=="Hardware and accessories")
-    {
-      $scope.tierThreeCategories=["Disk resizing/ partitioning","Drivers"];
+
+  $scope.populateTierThreeCategories = function() {
+
+    console.log('tier two change event fired...');
+
+    if($scope.ticketDetails.tierOneCategory === "Project Activity") {
+      if($scope.ticketDetails.tierTwoCategory === "software and applications") {
+        $scope.tierThreeCategories = ["Multiple software installation"];
+      } else if ($scope.ticketDetails.tierTwoCategory === "network") {
+        $scope.tierThreeCategories = ["site to site VPN", "Project specific internet setup"];
+      } else if ($scope.ticketDetails.tierTwoCategory === "Email Services") {
+        $scope.tierThreeCategories = ["N/A"];
+      }
+    } else if($scope.ticketDetails.tierOneCategory === "Failure / Issue") {
+      if($scope.ticketDetails.tierTwoCategory === "Hardware and accessories") {
+        $scope.tierThreeCategories = ["Laptop hardware", "Desktop hardware", "Accessories"];
+      }
+    } else if($scope.ticketDetails.tierOneCategory === "Install / Configure") {
+      if($scope.ticketDetails.tierTwoCategory === "Hardware and accessories") {
+        $scope.tierThreeCategories = ["Disk resizing/ partitioning", "Drivers"];
+      } else if($scope.ticketDetails.tierTwoCategory === "SCM (CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)") {
+        $scope.tierThreeCategories = ["Other Rational Product"];
+      } else if($scope.ticketDetails.tierTwoCategory === "Network") {
+        $scope.tierThreeCategories = ["Project specific access"];
+      } else if($scope.ticketDetails.tierTwoCategory === "software and applications") {
+        $scope.tierThreeCategories = ["Client Operating system - Microsoft based", "Software download"];
+      } else if($scope.ticketDetails.tierTwoCategory === "Email Services") {
+        $scope.tierThreeCategories = ["Outlook client"];
+      }
+    } else if($scope.ticketDetails.tierOneCategory === "New/additional requirement/Provisioning") {
+      if($scope.ticketDetails.tierTwoCategory === "Other IT Services") {
+        $scope.tierThreeCategories = ["New WebEx account"];
+      }
     }
-    if($scope.tierTwoCategories=="SCM(CC/SVN/Bugzilla/RTC/RFT/RPT/Other tools)")
-    {
-      $scope.tierThreeCategories=["Other Rational Product"];
-    }
-    if($scope.tierTwoCategories=="Network")
-    {
-      $scope.tierThreeCategories=["Project specific access"];
-    }
-    if($scope.tierTwoCategories=="software and applications")
-    {
-      $scope.tierThreeCategories=["Client Operating system - Microsoft based","Software download"];
-    }
-    if($scope.tierTwoCategories=="Email Services")
-    {
-      $scope.tierThreeCategories=["Outlook client"];
-    }
-  
   }
-  if($scope.TierOneCategories=="New/additional requirement/Provisioning")
-  {
-    $scope.tierTwoCategories=["Other IT Services"];
-    $scope.tierThreeCategories=["New WebEx account"];
-  }
- 
 
 
   // Fetch Data using APIs
   $scope.div1 = true;
   $scope.div2 = false;
-   $scope.fillAllDetails=false;
+  $scope.fillAllDetails=false;
   $scope.next=function() {
-	  if($scope.myForm.$valid){
-    $scope.div1 = false;
-    $scope.div2 = true;
-    console.log($scope.requestDetails.summary);
-    var headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      //  "Authorization": "Bearer " + localStorage.getItem("token")
-    };
+    if($scope.myForm.$valid){
+      $scope.div1 = false;
+      $scope.div2 = true;
+      console.log($scope.requestDetails.summary);
+      var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        //  "Authorization": "Bearer " + localStorage.getItem("token")
+      };
 
-    var request = {
-      method: 'POST',
-      url: classifyURL,
-      data: $scope.requestDetails,
-      headers: headers
-    };
+      var request = {
+        method: 'POST',
+        url: classifyURL,
+        data: $scope.requestDetails,
+        headers: headers
+      };
 
-    $http(request)
-    .success(function(data, status, headers, config) {
-
-      console.log(data);
-      $scope.ticketDetails.serviceCategory = data.ticketDetails.serviceCategory;
-      $scope.ticketDetails.projectName = data.ticketDetails.projectName;
-      $scope.ticketDetails.tierOneCategory = data.ticketDetails.tierOneCategory;
-      $scope.ticketDetails.tierTwoCategory = data.ticketDetails.tierTwoCategory;
-      $scope.ticketDetails.tierThreeCategory = data.ticketDetails.tierThreeCategory;
-      $scope.ticketDetails.urgency = data.ticketDetails.urgency;
-    })
-    .error(function(data, status, headers, config) {
-      console.log('error');
-    });
-	  }
-	  else{
-	      $scope.fillAllDetails=true;
-	  }
+      $http(request)
+      .success(function(data, status, headers, config) {
+        console.log(data);
+        $scope.ticketDetails = data.ticketDetails;
+      })
+      .error(function(data, status, headers, config) {
+        console.log('error');
+      });
+    }
+    else{
+      $scope.fillAllDetails=true;
+    }
   };
 
 

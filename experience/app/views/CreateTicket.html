@@ -4,15 +4,15 @@
     <div class="form-group dragwidgets formElement" style="position: relative;">
 	<span ng-show="fillAllDetails" class="text-danger">Please Fill All Details</span>
 	<br/>
-      <label>Summary  :</label> 
+      <label>Summary  :</label>
 	  <span ng-show="myForm.$submitted|| (myForm.sm.$dirty && myForm.sm.$error.required)" class="text-danger">This field is required</span>
       <input type="text" name="sm" class="form-control" placeholder="Enter brief summary about issue" ng-model="requestDetails.summary" required />
-	    
+
       <br/>
 	  <label>Description  :</label>
 	  <span ng-show="myForm.$submitted|| (myForm.desc.$dirty && myForm.desc.$error.required)" class="text-danger">This field is required</span>
       <textarea type="textarea" name="desc" class="form-control" placeholder="Enter detailed description about issue." rows="3" ng-model="requestDetails.description" required="required"></textarea>
-  
+
 	</div>
     <center>
       <div class="btn btn-info dragwidgets formElement" id="btn" name="Next" ng-click="next()" style="position: relative;">Next</div>
@@ -26,29 +26,36 @@
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Name : {{ticketDetails.name}}</div>
         </div>
         <div class="columns col-md-6 id_52" id="2">
-          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Service Category : {{ticketDetails.serviceCategory}}</div>
+          <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Service Category :
+            <select class="form-control" name="tier0" ng-model="ticketDetails.serviceCategory"
+              ng-change="changeTierOneCategories(ticketDetails.serviceCategory)" >
+              <option value="" disabled style="background-color:white;color:black;">Select category</option>
+              <option ng-repeat="serviceCategory in serviceCategories" value="{{serviceCategory}}" style="background-color:white;color:black;">{{serviceCategory}}</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="row" id="8">
         <div class="columns col-md-12 id_81" id="1">
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Project Name : {{ticketDetails.projectName}}</div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 1:
-            <select class="form-control" name="tier1" ng-model="ticketDetails.tierOneCategory">
+            <select class="form-control" name="tier1" ng-model="ticketDetails.tierOneCategory"
+              ng-change="changeTierTwoCategories(ticketDetails.tierOneCategory)" >
               <option value="" disabled style="background-color:white;color:black;">Select category</option>
-              <option ng-repeat="tierOneCategory in TierOneCategories" value="{{tierOneCategory}}" style="background-color:white;color:black;">{{tierOneCategory}}</option>
+              <option ng-repeat="tierOneCategory in tierOneCategories" value="{{tierOneCategory}}" style="background-color:white;color:black;">{{tierOneCategory}}</option>
             </select>
           </div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 2:
-            <select class="form-control" name="tier2" ng-model="ticketDetails.tierTwoCategory">
+            <select class="form-control" name="tier2" ng-model="ticketDetails.tierTwoCategory" value="{{ticketDetails.tierTwoCategory}}"
+            ng-change="changeTierThreeCategories(ticketDetails.tierTwoCategory)">
               <option value="" disabled style="background-color:white;color:black;">Select category</option>
               <option ng-repeat="tierTwoCategory in tierTwoCategories" value="{{tierTwoCategory}}" style="background-color:white;color:black;">{{tierTwoCategory}}</option>
-
             </select>
           </div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Categorization Tier 3:
             <select class="form-control" name="tier3" ng-model="ticketDetails.tierThreeCategory">
               <option value="" disabled style="background-color:white;color:black;">Select category</option>
-              <option ng-repeat="tierThreeCategory in tierThreeCategories" value="{{tier3}}" style="background-color:white;color:black;">{{tierThreeCategory}}</option>
+              <option ng-repeat="tierThreeCategory in tierThreeCategories" value="{{tierThreeCategory}}" style="background-color:white;color:black;">{{tierThreeCategory}}</option>
             </select>
           </div>
           <div class="form-group dragwidgets formElement" id="labelId" style="font-weight: bold; position: relative;">Priority :
