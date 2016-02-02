@@ -11,17 +11,17 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-xs-12">
-          <div class="row"><div class="col-xs-12" style="color:#09417A;font-weight:bold;font-size:15px;">Request summary : {{}}  </div></div>
-		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-weight:bold;font-size:15px;">Request ID : {{}}  </div></div>
+          <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Request summary : <span style="color:black">{{ticket.requestDetails.summary}}</span></div></div>
+		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Request ID : <span style="color:black">{{ticket.uuid}}</span> </div></div>
           <div class="row" style="margin-top:7px;">
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-weight:bold;font-size:15px;">Created Date <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-weight:bold;font-size:15px;">Priority  <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Created Date <div class="panelFontLeft" style="color:black">{{ticket.created | date:'yyyy-MM-dd'}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Priority  <div class="panelFontLeft" style="color:black">{{ticket.ticketDetails.urgency}}</div></div>
           </div>
 		  <div class="row" style="margin-top:7px;">
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-weight:bold;font-size:15px;">Completed Date <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
-            <div class="col-xs-6 panelFont" style="color:#09417A;font-weight:bold;font-size:15px;">TurnAround Time  <div class="panelFontLeft" style="color:#09417A;">{{}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">Completed Date <div class="panelFontLeft" style="color:black;">{{ticket.completed | date:'yyyy-MM-dd'}}</div></div>
+            <div class="col-xs-6 panelFont" style="color:#09417A;font-size:15px;">TurnAround Time  <div class="panelFontLeft" style="color:black;">{{}}</div></div>
           </div>
-		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-weight:bold;font-size:15px;">Support Engineer : {{}}  </div></div>
+		   <div class="row"><div class="col-xs-12" style="color:#09417A;font-size:15px;">Support Engineer : {{}}  </div></div>
      
         </div>
       </div>

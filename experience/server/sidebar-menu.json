@@ -7,7 +7,7 @@
   {
     "text": "Dashboard",
     "sref": "app.Dashboard",
-    "icon": "fa fa-glass",
+    "icon": "fa fa-dashboard",
     "translate": "sidebar.nav.DASHBOARD"
   },
   {
